@@ -66,7 +66,7 @@ import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
                         mat-row
                         *matRowDef="let portfolio; let i = dataIndex; columns: portfolioCols"
                         (click)="
-                            expandedPortfolio.set(expandedPortfolio === portfolio ? null : portfolio);
+                            expandedPortfolio.set(expandedPortfolio() === portfolio ? null : portfolio);
                             expandedIndex.set(i)
                         "
                     ></tr>

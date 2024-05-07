@@ -57,3 +57,10 @@ npm install -D madge npm-run-all
 ```bash
 ng lint
 ```
+
+### Deploy to GitHub Pages
+
+```bash
+ng add angular-cli-ghpages
+ng deploy --base-href=/krake-angular/
+```
