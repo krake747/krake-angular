@@ -1,0 +1,102 @@
+[
+    {
+        "id": "0f746dbf-3381-4235-abc6-03420030f38b",
+        "name": "Krake ETFs",
+        "currency": "EUR",
+        "investments": []
+    },
+    {
+        "id": "c3ee6c05-514d-4d43-aa26-57e58840f4ac",
+        "name": "Krake Master",
+        "currency": "EUR",
+        "investments": [
+            {
+                "instrumentId": "15b3c4a2-4053-4c11-ae8f-de97909cb507",
+                "instrumentName": "Adidas AG",
+                "instrumentCurrency": "EUR",
+                "purchaseDate": "2024-04-25",
+                "purchasePrice": 226.4,
+                "quantity": 65
+            },
+            {
+                "instrumentId": "15b3c4a2-4053-4c11-ae8f-de97909cb507",
+                "instrumentName": "Adidas AG",
+                "instrumentCurrency": "EUR",
+                "purchaseDate": "2024-05-03",
+                "purchasePrice": 225,
+                "quantity": 35
+            },
+            {
+                "instrumentId": "84815b16-eeb8-4784-a7ca-2211fc712675",
+                "instrumentName": "BASF SE",
+                "instrumentCurrency": "EUR",
+                "purchaseDate": "2024-05-03",
+                "purchasePrice": 49.09,
+                "quantity": 100
+            },
+            {
+                "instrumentId": "9ba41f49-73d9-46b5-95c7-2eab09a13806",
+                "instrumentName": "Siemens AG",
+                "instrumentCurrency": "EUR",
+                "purchaseDate": "2024-04-15",
+                "purchasePrice": 175.9,
+                "quantity": 80
+            },
+            {
+                "instrumentId": "9ba41f49-73d9-46b5-95c7-2eab09a13806",
+                "instrumentName": "Siemens AG",
+                "instrumentCurrency": "EUR",
+                "purchaseDate": "2024-05-03",
+                "purchasePrice": 177.34,
+                "quantity": 20
+            }
+        ]
+    },
+    {
+        "id": "b93fc178-7ef6-4754-a341-0349834b22a5",
+        "name": "Krake US Equities",
+        "currency": "USD",
+        "investments": [
+            {
+                "instrumentId": "bab9e42c-bb30-4022-aeba-c78344f2ada6",
+                "instrumentName": "Coca-Cola Company",
+                "instrumentCurrency": "USD",
+                "purchaseDate": "2024-04-11",
+                "purchasePrice": 59.05,
+                "quantity": 10
+            },
+            {
+                "instrumentId": "bab9e42c-bb30-4022-aeba-c78344f2ada6",
+                "instrumentName": "Coca-Cola Company",
+                "instrumentCurrency": "USD",
+                "purchaseDate": "2024-05-03",
+                "purchasePrice": 62.17,
+                "quantity": 35
+            },
+            {
+                "instrumentId": "7b2ed9d3-5735-42f7-8814-f4ccb1b585ba",
+                "instrumentName": "Microsoft Corp",
+                "instrumentCurrency": "USD",
+                "purchaseDate": "2024-04-25",
+                "purchasePrice": 406.66,
+                "quantity": 10
+            },
+            {
+                "instrumentId": "863dc0e1-2f64-4866-a1d8-9f62357e67dc",
+                "instrumentName": "Visa Inc.",
+                "instrumentCurrency": "USD",
+                "purchaseDate": "2024-04-24",
+                "purchasePrice": 275.02,
+                "quantity": 25
+            },
+            {
+                "instrumentId": "863dc0e1-2f64-4866-a1d8-9f62357e67dc",
+                "instrumentName": "Visa Inc.",
+                "instrumentCurrency": "USD",
+                "purchaseDate": "2024-04-15",
+                "purchasePrice": 268.49,
+                "quantity": 15
+            }
+        ]
+    }
+]
