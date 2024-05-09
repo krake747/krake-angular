@@ -13,6 +13,10 @@ export interface PortfolioInvestment {
     instrumentId: string;
     instrumentName: string;
     instrumentCurrency: string;
+    instrumentMic: string;
+    instrumentSector: string;
+    instrumentSymbol: string;
+    instrumentIsin: string;
     purchaseDate: string;
     purchasePrice: number;
     quantity: number;

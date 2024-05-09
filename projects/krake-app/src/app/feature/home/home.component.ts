@@ -113,7 +113,18 @@ import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
 })
 export class HomeComponent {
     portfolioCols = ["id", "name", "currency", "expand"];
-    portfolioInvestmentCols = ["instrumentName", "instrumentCurrency", "purchaseDate", "purchasePrice", "quantity"];
+    portfolioInvestmentCols = [
+        "instrumentName",
+        "instrumentCurrency",
+        "instrumentCountry",
+        "instrumentMic",
+        "instrumentSector",
+        "instrumentSymbol",
+        "instrumentIsin",
+        "purchaseDate",
+        "purchasePrice",
+        "quantity"
+    ];
 
     expandedPortfolio = signal<Portfolio | null>(null);
     expandedIndex = signal(0);
