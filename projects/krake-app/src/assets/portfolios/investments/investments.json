@@ -3,12 +3,14 @@
         "id": "0f746dbf-3381-4235-abc6-03420030f38b",
         "name": "Krake ETFs",
         "currency": "EUR",
+        "totalValue": 0,
         "investments": []
     },
     {
         "id": "c3ee6c05-514d-4d43-aa26-57e58840f4ac",
         "name": "Krake Master",
         "currency": "EUR",
+        "totalValue": 45118.8,
         "investments": [
             {
                 "instrumentId": "15b3c4a2-4053-4c11-ae8f-de97909cb507",
@@ -81,6 +83,7 @@
         "id": "b93fc178-7ef6-4754-a341-0349834b22a5",
         "name": "Krake US Equities",
         "currency": "USD",
+        "totalValue": 17735.9,
         "investments": [
             {
                 "instrumentId": "bab9e42c-bb30-4022-aeba-c78344f2ada6",

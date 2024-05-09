@@ -24,6 +24,12 @@ import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
                     </ng-container>
                     <mat-text-column name="name"></mat-text-column>
                     <mat-text-column name="currency"></mat-text-column>
+                    <ng-container matColumnDef="totalValue">
+                        <th mat-header-cell *matHeaderCellDef>{{ "totalValue" | camelCaseToHeader }}</th>
+                        <td mat-cell *matCellDef="let portfolio">
+                            {{ portfolio.totalValue }}
+                        </td>
+                    </ng-container>
                     <ng-container matColumnDef="expand">
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let portfolio">
@@ -112,7 +118,7 @@ import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
     ]
 })
 export class HomeComponent {
-    portfolioCols = ["id", "name", "currency", "expand"];
+    portfolioCols = ["id", "name", "currency", "totalValue", "expand"];
     portfolioInvestmentCols = [
         "instrumentName",
         "instrumentCurrency",
