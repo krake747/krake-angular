@@ -3,6 +3,7 @@
         "id": "0f746dbf-3381-4235-abc6-03420030f38b",
         "name": "Krake ETFs",
         "currency": "EUR",
+        "totalCost": 0,
         "totalValue": 0,
         "investments": []
     },
@@ -10,7 +11,8 @@
         "id": "c3ee6c05-514d-4d43-aa26-57e58840f4ac",
         "name": "Krake Master",
         "currency": "EUR",
-        "totalValue": 45118.8,
+        "totalCost": 45118.8,
+        "totalValue": 45722,
         "investments": [
             {
                 "instrumentId": "15b3c4a2-4053-4c11-ae8f-de97909cb507",
@@ -23,7 +25,11 @@
                 "instrumentIsin": "DE000A1EWWW0",
                 "purchaseDate": "2024-04-25",
                 "purchasePrice": 226.4,
-                "quantity": 65
+                "quantity": 65,
+                "latestDate": "2024-05-09",
+                "latestPrice": 223.3,
+                "gain": -201.5,
+                "percentageGain": -0.0137
             },
             {
                 "instrumentId": "15b3c4a2-4053-4c11-ae8f-de97909cb507",
@@ -36,7 +42,11 @@
                 "instrumentIsin": "DE000A1EWWW0",
                 "purchaseDate": "2024-05-03",
                 "purchasePrice": 225,
-                "quantity": 35
+                "quantity": 35,
+                "latestDate": "2024-05-09",
+                "latestPrice": 223.3,
+                "gain": -59.5,
+                "percentageGain": -0.0076
             },
             {
                 "instrumentId": "84815b16-eeb8-4784-a7ca-2211fc712675",
@@ -49,7 +59,11 @@
                 "instrumentIsin": "DE000BASF111",
                 "purchaseDate": "2024-05-03",
                 "purchasePrice": 49.09,
-                "quantity": 100
+                "quantity": 100,
+                "latestDate": "2024-05-09",
+                "latestPrice": 49.84,
+                "gain": 75,
+                "percentageGain": 0.0153
             },
             {
                 "instrumentId": "9ba41f49-73d9-46b5-95c7-2eab09a13806",
@@ -62,7 +76,11 @@
                 "instrumentIsin": "DE0007236101",
                 "purchaseDate": "2024-04-15",
                 "purchasePrice": 175.9,
-                "quantity": 80
+                "quantity": 80,
+                "latestDate": "2024-05-09",
+                "latestPrice": 184.08,
+                "gain": 654.4,
+                "percentageGain": 0.0465
             },
             {
                 "instrumentId": "9ba41f49-73d9-46b5-95c7-2eab09a13806",
@@ -75,7 +93,11 @@
                 "instrumentIsin": "DE0007236101",
                 "purchaseDate": "2024-05-03",
                 "purchasePrice": 177.34,
-                "quantity": 20
+                "quantity": 20,
+                "latestDate": "2024-05-09",
+                "latestPrice": 184.08,
+                "gain": 134.8,
+                "percentageGain": 0.038
             }
         ]
     },
@@ -83,7 +105,8 @@
         "id": "b93fc178-7ef6-4754-a341-0349834b22a5",
         "name": "Krake US Equities",
         "currency": "USD",
-        "totalValue": 17735.9,
+        "totalCost": 17735.9,
+        "totalValue": 18094.4,
         "investments": [
             {
                 "instrumentId": "bab9e42c-bb30-4022-aeba-c78344f2ada6",
@@ -96,7 +119,11 @@
                 "instrumentIsin": "US1912161007",
                 "purchaseDate": "2024-04-11",
                 "purchasePrice": 59.05,
-                "quantity": 10
+                "quantity": 10,
+                "latestDate": "2024-05-09",
+                "latestPrice": 62.88,
+                "gain": 38.3,
+                "percentageGain": 0.0649
             },
             {
                 "instrumentId": "bab9e42c-bb30-4022-aeba-c78344f2ada6",
@@ -109,7 +136,11 @@
                 "instrumentIsin": "US1912161007",
                 "purchaseDate": "2024-05-03",
                 "purchasePrice": 62.17,
-                "quantity": 35
+                "quantity": 35,
+                "latestDate": "2024-05-09",
+                "latestPrice": 62.88,
+                "gain": 24.85,
+                "percentageGain": 0.0114
             },
             {
                 "instrumentId": "7b2ed9d3-5735-42f7-8814-f4ccb1b585ba",
@@ -122,7 +153,11 @@
                 "instrumentIsin": "US5949181045",
                 "purchaseDate": "2024-04-25",
                 "purchasePrice": 406.66,
-                "quantity": 10
+                "quantity": 10,
+                "latestDate": "2024-05-09",
+                "latestPrice": 412.32,
+                "gain": 56.6,
+                "percentageGain": 0.0139
             },
             {
                 "instrumentId": "863dc0e1-2f64-4866-a1d8-9f62357e67dc",
@@ -135,7 +170,11 @@
                 "instrumentIsin": "US92826C8394",
                 "purchaseDate": "2024-04-24",
                 "purchasePrice": 275.02,
-                "quantity": 25
+                "quantity": 25,
+                "latestDate": "2024-05-09",
+                "latestPrice": 278.54,
+                "gain": 88,
+                "percentageGain": 0.0128
             },
             {
                 "instrumentId": "863dc0e1-2f64-4866-a1d8-9f62357e67dc",
@@ -148,7 +187,11 @@
                 "instrumentIsin": "US92826C8394",
                 "purchaseDate": "2024-04-15",
                 "purchasePrice": 268.49,
-                "quantity": 15
+                "quantity": 15,
+                "latestDate": "2024-05-09",
+                "latestPrice": 278.54,
+                "gain": 150.75,
+                "percentageGain": 0.0374
             }
         ]
     }
