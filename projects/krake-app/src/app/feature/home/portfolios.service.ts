@@ -6,6 +6,7 @@ export interface Portfolio {
     id: string;
     name: string;
     currency: string;
+    totalCost: number;
     totalValue: number;
     investments: PortfolioInvestment[];
 }
@@ -21,6 +22,10 @@ export interface PortfolioInvestment {
     purchaseDate: string;
     purchasePrice: number;
     quantity: number;
+    lastestDate: string | null;
+    latestPrice: number | null;
+    gain: number | null;
+    percentageGain: number | null;
 }
 
 export abstract class ApiEndpoints {

@@ -1,4 +1,4 @@
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe, PercentPipe } from "@angular/common";
 import { Component, inject, signal } from "@angular/core";
 import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.service";
 
@@ -8,11 +8,20 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { map } from "rxjs";
 import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
+import { RemoveHeaderPrefixPipe } from "./remove-header-prefix.pipe";
 
 @Component({
     selector: "krake-home",
     standalone: true,
-    imports: [AsyncPipe, CamelCaseToHeaderPipe, MatButtonModule, MatIconModule, MatTableModule],
+    imports: [
+        AsyncPipe,
+        PercentPipe,
+        CamelCaseToHeaderPipe,
+        RemoveHeaderPrefixPipe,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule
+    ],
     template: `
         <div class="container">
             <h1>Portfolios</h1>
@@ -24,6 +33,12 @@ import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
                     </ng-container>
                     <mat-text-column name="name"></mat-text-column>
                     <mat-text-column name="currency"></mat-text-column>
+                    <ng-container matColumnDef="totalCost">
+                        <th mat-header-cell *matHeaderCellDef>{{ "totalCost" | camelCaseToHeader }}</th>
+                        <td mat-cell *matCellDef="let portfolio">
+                            {{ portfolio.totalCost }}
+                        </td>
+                    </ng-container>
                     <ng-container matColumnDef="totalValue">
                         <th mat-header-cell *matHeaderCellDef>{{ "totalValue" | camelCaseToHeader }}</th>
                         <td mat-cell *matCellDef="let portfolio">
@@ -52,12 +67,26 @@ import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
                                     <table mat-table [dataSource]="ds.data[expandedIndex()].investments">
                                         @for (column of portfolioInvestmentCols; track $index) {
                                             <ng-container matColumnDef="{{ column }}">
-                                                <th mat-header-cell *matHeaderCellDef>
-                                                    {{ column | camelCaseToHeader }}
-                                                </th>
-                                                <td mat-cell *matCellDef="let investment">
-                                                    {{ investment[column] }}
-                                                </td>
+                                                @switch (column) {
+                                                    @case ("percentageGain") {
+                                                        <th mat-header-cell *matHeaderCellDef>{{ "Gain %" }}</th>
+                                                        <td mat-cell *matCellDef="let investment">
+                                                            {{ investment[column] | percent: "1.0-2" }}
+                                                        </td>
+                                                    }
+                                                    @default {
+                                                        <th mat-header-cell *matHeaderCellDef>
+                                                            {{
+                                                                column
+                                                                    | removeHeaderPrefix: "instrument"
+                                                                    | camelCaseToHeader
+                                                            }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let investment">
+                                                            {{ investment[column] }}
+                                                        </td>
+                                                    }
+                                                }
                                             </ng-container>
                                         }
                                         <tr mat-header-row *matHeaderRowDef="portfolioInvestmentCols"></tr>
@@ -118,7 +147,7 @@ import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
     ]
 })
 export class HomeComponent {
-    portfolioCols = ["id", "name", "currency", "totalValue", "expand"];
+    portfolioCols = ["id", "name", "currency", "totalCost", "totalValue", "expand"];
     portfolioInvestmentCols = [
         "instrumentName",
         "instrumentCurrency",
@@ -129,7 +158,11 @@ export class HomeComponent {
         "instrumentIsin",
         "purchaseDate",
         "purchasePrice",
-        "quantity"
+        "quantity",
+        "latestDate",
+        "latestPrice",
+        "gain",
+        "percentageGain"
     ];
 
     expandedPortfolio = signal<Portfolio | null>(null);
