@@ -30,7 +30,7 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
         MatTooltipModule
     ],
     template: `
-        <div class="container">
+        <div class="container debug" style="width: 99%;">
             <div class="top">
                 <h1>Portfolios</h1>
                 @if (dataSource$ | async; as ds) {
@@ -179,13 +179,11 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
                 }
 
                 & .left {
-                    width: 48.5vw;
                     grid-column-start: 1;
                     grid-column-end: 2;
                 }
 
                 & .right {
-                    width: 48.5vw;
                     grid-column-start: 2;
                     grid-column-end: 3;
                 }

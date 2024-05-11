@@ -11,9 +11,18 @@ import { PortfolioInvestment } from "./portfolios.service";
     imports: [CurrencyPipe, BaseChartDirective],
     providers: [CurrencyPipe],
     template: `
-        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
+        <div class="chart-container">
+            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
+        </div>
     `,
-    styles: ``
+    styles: `
+        .chart-container {
+            position: relative;
+            margin: auto;
+            width: 48.5vw;
+            height: 41vh;
+        }
+    `
 })
 export class InstrumentPricesChartComponent implements OnChanges {
     private readonly currencyPipe = inject(CurrencyPipe);

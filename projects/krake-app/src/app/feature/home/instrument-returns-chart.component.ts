@@ -11,9 +11,18 @@ import { PortfolioInvestment } from "./portfolios.service";
     imports: [PercentPipe, BaseChartDirective],
     providers: [PercentPipe],
     template: `
-        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType"></canvas>
+        <div class="chart-container">
+            <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType"></canvas>
+        </div>
     `,
-    styles: ``
+    styles: `
+        .chart-container {
+            position: relative;
+            margin: auto;
+            width: 48.5vw;
+            height: 41vh;
+        }
+    `
 })
 export class InstrumentReturnsChartComponent implements OnChanges {
     private readonly percentPipe = inject(PercentPipe);
