@@ -147,19 +147,17 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
                 }
             </div>
             @if (expandedPortfolio() !== null && expandedInvestment() !== null) {
-                <div class="bottom">
-                    <div class="left">
-                        <krake-instrument-prices-chart
-                            [investment]="expandedInvestment()!"
-                            [prices]="instrumentService.prices()"
-                        />
-                    </div>
-                    <div class="right">
-                        <krake-instrument-returns-chart
-                            [investment]="expandedInvestment()!"
-                            [returns]="instrumentService.returns()"
-                        />
-                    </div>
+                <div class="left">
+                    <krake-instrument-prices-chart
+                        [investment]="expandedInvestment()!"
+                        [prices]="instrumentService.prices()"
+                    />
+                </div>
+                <div class="right">
+                    <krake-instrument-returns-chart
+                        [investment]="expandedInvestment()!"
+                        [returns]="instrumentService.returns()"
+                    />
                 </div>
             }
         </div>
@@ -167,14 +165,29 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
     styles: [
         `
             .container {
-                padding: 15px;
+                padding: 8px;
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-template-rows: auto auto;
 
                 & .top {
-                    height: 55vh;
+                    grid-column-start: 1;
+                    grid-column-end: 3;
+                    grid-row-start: 1;
+                    grid-row-end: 2;
+                    padding-bottom: 16px;
                 }
 
-                & .bottom {
-                    height: 45vh;
+                & .left {
+                    width: 48.5vw;
+                    grid-column-start: 1;
+                    grid-column-end: 2;
+                }
+
+                & .right {
+                    width: 48.5vw;
+                    grid-column-start: 2;
+                    grid-column-end: 3;
                 }
             }
 
@@ -194,20 +207,6 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
 
                 &:not(.expansion-row):active {
                     background: #fce4ec; /* Pink 50 */
-                }
-            }
-
-            .bottom {
-                width: 100%;
-
-                & .left {
-                    float: left;
-                    width: 50%;
-                }
-
-                & .right {
-                    float: right;
-                    width: 50%;
                 }
             }
         `
