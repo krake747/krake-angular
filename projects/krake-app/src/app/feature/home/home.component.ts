@@ -4,6 +4,7 @@ import { Component, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { map } from "rxjs";
 import { CamelCaseToHeaderPipe } from "../../ui/camel-case-to-header.pipe";
 import { RemoveHeaderPrefixPipe } from "../../ui/remove-header-prefix.pipe";
@@ -25,7 +26,8 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
         InstrumentReturnsChartComponent,
         MatButtonModule,
         MatIconModule,
-        MatTableModule
+        MatTableModule,
+        MatTooltipModule
     ],
     template: `
         <div class="container">
@@ -54,7 +56,12 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
                         <ng-container matColumnDef="expand">
                             <th mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let portfolio">
-                                <button mat-icon-button>
+                                <button
+                                    mat-icon-button
+                                    #tooltip="matTooltip"
+                                    [matTooltip]="expandedPortfolio() === portfolio ? 'Close' : 'Open positions'"
+                                    matTooltipPosition="right"
+                                >
                                     @if (expandedPortfolio() === portfolio) {
                                         <mat-icon>keyboard_arrow_up</mat-icon>
                                     } @else {
@@ -99,6 +106,16 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
                                             <tr
                                                 mat-row
                                                 *matRowDef="let investment; columns: portfolioInvestmentCols"
+                                                #tooltip="matTooltip"
+                                                matTooltipShowDelay="1000"
+                                                [matTooltip]="
+                                                    expandedInvestment() === null
+                                                        ? 'Open charts by click'
+                                                        : expandedInvestment()?.instrumentId !== investment.instrumentId
+                                                          ? 'Switch charts by click'
+                                                          : 'Close charts by click'
+                                                "
+                                                matTooltipPosition="below"
                                                 (click)="
                                                     expandedInvestment.set(
                                                         expandedInvestment() === investment ? null : investment
