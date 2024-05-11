@@ -119,7 +119,8 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
                             *matRowDef="let portfolio; let i = dataIndex; columns: portfolioCols"
                             (click)="
                                 expandedPortfolio.set(expandedPortfolio() === portfolio ? null : portfolio);
-                                expandedIndex.set(i)
+                                expandedIndex.set(i);
+                                expandedInvestment.set(null)
                             "
                         ></tr>
                         <tr class="expansion-row" mat-row *matRowDef="let row; columns: ['investments']"></tr>
@@ -128,7 +129,7 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
                     <p>Loading portfolio data...</p>
                 }
             </div>
-            @if (expandedInvestment() !== null) {
+            @if (expandedPortfolio() !== null && expandedInvestment() !== null) {
                 <div class="bottom">
                     <div class="left">
                         <krake-instrument-prices-chart

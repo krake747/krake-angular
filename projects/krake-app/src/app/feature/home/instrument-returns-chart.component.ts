@@ -1,5 +1,6 @@
-import { Component, OnChanges, input, viewChild } from "@angular/core";
-import { ChartConfiguration, ChartType } from "chart.js";
+import { PercentPipe } from "@angular/common";
+import { Component, OnChanges, inject, input, viewChild } from "@angular/core";
+import { ChartConfiguration, ChartType, TooltipItem } from "chart.js";
 import { BaseChartDirective } from "ng2-charts";
 import { InstrumentReturn } from "./instrument.service";
 import { PortfolioInvestment } from "./portfolios.service";
@@ -7,13 +8,16 @@ import { PortfolioInvestment } from "./portfolios.service";
 @Component({
     selector: "krake-instrument-returns-chart",
     standalone: true,
-    imports: [BaseChartDirective],
+    imports: [PercentPipe, BaseChartDirective],
+    providers: [PercentPipe],
     template: `
         <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType"></canvas>
     `,
     styles: ``
 })
 export class InstrumentReturnsChartComponent implements OnChanges {
+    private readonly percentPipe = inject(PercentPipe);
+
     chart = viewChild<BaseChartDirective>(BaseChartDirective);
     returns = input<InstrumentReturn[]>();
     investment = input<PortfolioInvestment>();
@@ -35,6 +39,20 @@ export class InstrumentReturnsChartComponent implements OnChanges {
                 title: {
                     display: true,
                     text: "Simple Returns"
+                },
+                ticks: {
+                    callback: value => this.percentPipe.transform(value, "1.0-2")
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context: TooltipItem<"bar">) =>
+                        `${context.dataset.label}: ${Math.round(context.parsed.y * 10000) / 100}%`
                 }
             }
         }
@@ -44,17 +62,19 @@ export class InstrumentReturnsChartComponent implements OnChanges {
         const baseData = (this.returns() ?? []).slice(-100);
         const data = baseData.map(r => r.value);
         const labels = baseData.map(r => r.date);
-        const indigo50 = (opacity: number) => `rgba(92, 107, 192, ${opacity})`;
+        const indigo400 = (opacity: number) => `rgba(92, 107, 192, ${opacity})`;
+        const pink400 = (opacity: number) => `rgba(236, 64, 122, ${opacity})`;
+        const backgroundColor = data.map(r => (r < 0 ? pink400(0.8) : indigo400(0.8)));
         return {
             datasets: [
                 {
                     data: data,
                     label: this.investment()?.instrumentName ?? "",
-                    backgroundColor: indigo50(0.8),
-                    borderColor: indigo50(0.8),
+                    backgroundColor: backgroundColor,
+                    borderColor: backgroundColor,
                     borderWidth: 2,
                     hoverBackgroundColor: "#fff",
-                    hoverBorderColor: indigo50(0.8),
+                    hoverBorderColor: backgroundColor,
                     fill: "origin"
                 }
             ],
