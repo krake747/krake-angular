@@ -30,7 +30,7 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
         MatTooltipModule
     ],
     template: `
-        <div class="container debug" style="width: 99%;">
+        <div class="container">
             <div class="top">
                 <h1>Portfolios</h1>
                 @if (dataSource$ | async; as ds) {
