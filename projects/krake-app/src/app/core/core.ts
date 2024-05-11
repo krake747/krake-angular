@@ -7,6 +7,7 @@ import {
     withInMemoryScrolling,
     withRouterConfig
 } from "@angular/router";
+import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 
 export interface CoreOptions {
     routes: Routes;
@@ -26,6 +27,10 @@ export function provideCore({ routes }: CoreOptions) {
                 scrollPositionRestoration: "enabled"
             })
         ),
-        provideHttpClient()
+        provideHttpClient(),
+
+        // 3rd party
+        // ng2-charts
+        provideCharts(withDefaultRegisterables())
     ];
 }
