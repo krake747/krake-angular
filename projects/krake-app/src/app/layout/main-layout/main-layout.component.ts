@@ -12,16 +12,14 @@ import { RouterOutlet } from "@angular/router";
             <span id="title">{{ title }}</span>
             <span class="spacer"></span>
         </mat-toolbar>
-        <main class="container">
+        <main>
             <router-outlet />
         </main>
     `,
     styles: [
         `
             main {
-                &.container {
-                    margin: 15px 15px 5px 15px;
-                }
+                margin: 16px 16px 8px 16px;
             }
 
             .spacer {

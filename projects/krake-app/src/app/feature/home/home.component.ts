@@ -165,7 +165,6 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
     styles: [
         `
             .container {
-                padding: 8px;
                 display: grid;
                 grid-template-columns: auto auto;
                 grid-template-rows: auto auto;

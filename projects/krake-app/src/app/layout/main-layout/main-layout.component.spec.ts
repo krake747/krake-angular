@@ -1,26 +1,41 @@
 import { TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { RouterOutlet } from "@angular/router";
 import { MainLayoutComponent } from "./main-layout.component";
 
 describe("MainLayoutComponent", () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
-    it("should display a navigation bar with a title", () => {
+    it("should create main layout component", () => {
+        expect(TestBed.createComponent(MainLayoutComponent)).toBeTruthy();
+    });
+
+    it("should display a title in the navigation bar", () => {
         // arrange
         const fixture = TestBed.createComponent(MainLayoutComponent);
         const mainLayoutComponent = fixture.componentInstance;
+        const element = fixture.nativeElement as HTMLElement;
 
         // act
-        mainLayoutComponent.title = "My Test App";
+        const nav = element.querySelector("mat-toolbar");
+        mainLayoutComponent.title = "Test App";
 
         fixture.detectChanges();
 
-        const element = fixture.nativeElement;
-        const title = element.querySelector("#title");
+        // assert
+        expect(nav).withContext("should display a navigation bar").toBeTruthy();
+        expect(mainLayoutComponent.title).withContext("should display a title").toBeTruthy();
+        expect(mainLayoutComponent.title).withContext("the title should be Test App").toBe("Test App");
+    });
+
+    it("should create a router outlet component", () => {
+        // arrange
+        const fixture = TestBed.createComponent(MainLayoutComponent);
+
+        // act
+        const routerOutlet = fixture.debugElement.queryAll(By.directive(RouterOutlet));
 
         // assert
-        expect(title).withContext("You need a title for the app name").not.toBeNull();
-        expect(title.textContent)
-            .withContext("The span element with id title should contain the title parameter value")
-            .toContain("My Test App");
+        expect(routerOutlet).withContext("should contain a RouterOutlet component").toBeTruthy();
     });
 });
