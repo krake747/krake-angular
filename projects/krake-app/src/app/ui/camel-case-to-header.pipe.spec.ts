@@ -8,7 +8,7 @@ type Asset = {
 };
 
 describe("CamelCaseToHeaderPipe", () => {
-    it("should transform the property name", () => {
+    it("transforms the property name", () => {
         // arrange
         const pipe = new CamelCaseToHeaderPipe();
         const propertyName = nameof<Asset>("id");
@@ -20,7 +20,7 @@ describe("CamelCaseToHeaderPipe", () => {
         expect(transformed).withContext("The pipe should capitalize the propertyName").toBe("Id");
     });
 
-    it("should transform the property name and split", () => {
+    it("transforms and splits the property name", () => {
         // arrange
         const pipe = new CamelCaseToHeaderPipe();
         const propertyName = nameof<Asset>("assetName");

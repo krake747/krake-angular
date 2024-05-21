@@ -6,7 +6,7 @@ import { MainLayoutComponent } from "./main-layout.component";
 describe("MainLayoutComponent", () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
-    it("should create main layout component", () => {
+    it("creates main layout component", () => {
         // arrange
         const fixture = TestBed.createComponent(MainLayoutComponent);
 
@@ -14,7 +14,7 @@ describe("MainLayoutComponent", () => {
         expect(fixture).toBeTruthy();
     });
 
-    it("should display a title in the navigation bar", () => {
+    it("displays a title in the navigation bar", () => {
         // arrange
         const fixture = TestBed.createComponent(MainLayoutComponent);
         const mainLayoutComponent = fixture.componentInstance;
@@ -32,7 +32,7 @@ describe("MainLayoutComponent", () => {
         expect(mainLayoutComponent.title).withContext("the title should be Test App").toBe("Test App");
     });
 
-    it("should create a router outlet component", () => {
+    it("creates a router outlet component", () => {
         // arrange
         const fixture = TestBed.createComponent(MainLayoutComponent);
 

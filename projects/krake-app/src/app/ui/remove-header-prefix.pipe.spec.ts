@@ -7,7 +7,7 @@ type Asset = {
 };
 
 describe("RemoveHeaderPrefixPipe", () => {
-    it("should transform the property name", () => {
+    it("transforms the property name", () => {
         // arrange
         const pipe = new RemoveHeaderPrefixPipe();
         const prefix = "asset";
@@ -20,7 +20,7 @@ describe("RemoveHeaderPrefixPipe", () => {
         expect(transformed).withContext("The pipe should remove the prefix from the propertyName").toBe("Name");
     });
 
-    it("should not transform the property name", () => {
+    it("does not transform the property name", () => {
         // arrange
         const pipe = new RemoveHeaderPrefixPipe();
         const prefix = "assets";
