@@ -9,7 +9,7 @@ import { RouterOutlet } from "@angular/router";
     template: `
         <mat-toolbar color="primary" class="mat-elevation-z3">
             <span class="spacer"></span>
-            <span>{{ title }}</span>
+            <span id="title">{{ title }}</span>
             <span class="spacer"></span>
         </mat-toolbar>
         <main class="container">
