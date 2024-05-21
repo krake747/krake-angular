@@ -7,7 +7,11 @@ describe("MainLayoutComponent", () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
     it("should create main layout component", () => {
-        expect(TestBed.createComponent(MainLayoutComponent)).toBeTruthy();
+        // arrange
+        const fixture = TestBed.createComponent(MainLayoutComponent);
+
+        // assert
+        expect(fixture).toBeTruthy();
     });
 
     it("should display a title in the navigation bar", () => {
