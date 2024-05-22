@@ -22,14 +22,14 @@ describe("MainLayoutComponent", () => {
 
         // act
         const nav = element.querySelector("mat-toolbar");
-        mainLayoutComponent.title = "Test App";
+        mainLayoutComponent.title.setTitle("Test App");
 
         fixture.detectChanges();
 
         // assert
         expect(nav).withContext("should display a navigation bar").toBeTruthy();
         expect(mainLayoutComponent.title).withContext("should display a title").toBeTruthy();
-        expect(mainLayoutComponent.title).withContext("the title should be Test App").toBe("Test App");
+        expect(mainLayoutComponent.title.getTitle()).withContext("the title should be Test App").toBe("Test App");
     });
 
     it("creates a router outlet component", () => {

@@ -9,5 +9,13 @@ export const routes: Routes = [
     {
         path: "home",
         loadChildren: () => import("./feature/home/home.routes")
+    },
+    {
+        path: "portfolios",
+        loadChildren: () => import("./feature/portfolios/portfolios.routes")
+    },
+    {
+        path: "**",
+        redirectTo: "home"
     }
 ];
