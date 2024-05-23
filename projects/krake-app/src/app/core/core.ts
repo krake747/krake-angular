@@ -1,4 +1,4 @@
-import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import {
     Routes,
@@ -8,6 +8,7 @@ import {
     withRouterConfig
 } from "@angular/router";
 import { provideCharts, withDefaultRegisterables } from "ng2-charts";
+import { loggingInterceptor } from "./interceptors/logging.interceptor";
 
 export interface CoreOptions {
     routes: Routes;
@@ -27,7 +28,7 @@ export function provideCore({ routes }: CoreOptions) {
                 scrollPositionRestoration: "enabled"
             })
         ),
-        provideHttpClient(),
+        provideHttpClient(withInterceptors([loggingInterceptor])),
 
         // 3rd party
         // ng2-charts
