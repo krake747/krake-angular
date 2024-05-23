@@ -1,6 +1,6 @@
-import { Component, OnChanges, OnInit, computed, inject, input, output } from "@angular/core";
+import { Component, OnInit, computed, inject, input, output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { CreatePortfolio, Portfolio, UpdatePortfolio } from "../../portfolios.models";
+import { CreatePortfolio, DeletePortfolio, Portfolio, UpdatePortfolio } from "../../portfolios.models";
 
 @Component({
     selector: "krake-portfolio-form",
@@ -25,7 +25,15 @@ import { CreatePortfolio, Portfolio, UpdatePortfolio } from "../../portfolios.mo
             ) {
                 <span class="validation validation-error">Currency is required.</span>
             }
-            <button type="submit">Create Portfolio</button>
+            <button type="submit" [disabled]="portfolioFormGroup.untouched">
+                {{ isEdit() ? "Update Portfolio" : "Create Portfolio" }}
+            </button>
+            @if (isEdit()) {
+                <button type="button" (click)="handleDelete()">Delete</button>
+            }
+            @if (portfolioFormGroup.touched || isEdit()) {
+                <button type="button" (click)="portfolioFormGroup.reset()">Reset</button>
+            }
         </form>
     `,
     styles: `
@@ -47,7 +55,7 @@ import { CreatePortfolio, Portfolio, UpdatePortfolio } from "../../portfolios.mo
         }
     `
 })
-export class PortfolioFormComponent implements OnInit, OnChanges {
+export class PortfolioFormComponent implements OnInit {
     private readonly fb = inject(FormBuilder);
     portfolioFormGroup!: FormGroup;
 
@@ -56,6 +64,7 @@ export class PortfolioFormComponent implements OnInit, OnChanges {
 
     portfolioCreated = output<CreatePortfolio>();
     portfolioUpdated = output<UpdatePortfolio>();
+    portfolioDeleted = output<DeletePortfolio>();
 
     portfolioId = computed(() => this.portfolio()?.id);
 
@@ -64,37 +73,29 @@ export class PortfolioFormComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this.portfolioFormGroup = this.fb.group({
             name: this.fb.control(this.portfolio()?.name ?? "", Validators.required),
-            currency: this.fb.control(this.portfolio()?.currency ?? "", [
-                Validators.required,
-                Validators.minLength(3),
-                Validators.maxLength(3)
-            ])
+            currency: this.fb.control(this.portfolio()?.currency ?? "", [Validators.required])
         });
     }
 
-    ngOnChanges(): void {
-        console.log(this.isEdit());
-        console.log(this.portfolio());
-    }
-
-    handleSubmit() {
-        console.log(this.isEdit(), this.portfolioFormGroup.getRawValue());
+    handleSubmit(): void {
         if (this.portfolioFormGroup.invalid) {
-            console.log("invalid form");
             this.portfolioFormGroup.markAllAsTouched();
             return;
         }
 
         if (this.isEdit()) {
-            console.log("Emit Update");
             this.portfolioUpdated.emit({
                 portfolioId: this.portfolioId()!,
                 data: { ...this.portfolioFormGroup.getRawValue() }
             });
         } else {
-            console.log("Not Implemented");
-            return;
-            // this.portfolioCreated.emit({ ...this.portfolioFormGroup.getRawValue() });
+            this.portfolioCreated.emit({ ...this.portfolioFormGroup.getRawValue() });
+        }
+    }
+
+    public handleDelete(): void {
+        if (confirm(`Really delete ${this.portfolio()!.name}?`)) {
+            this.portfolioDeleted.emit(this.portfolioId()!);
         }
     }
 }

@@ -19,7 +19,7 @@ import { PortfoliosService } from "./portfolios.service";
                 Loading portfolios...
             }
         </ul>
-        <button (click)="router.navigate(['portfolios', 'new'])">Create New</button>
+        <button (click)="router.navigate(['portfolios', 'new'])">New</button>
     `,
     styles: ``
 })

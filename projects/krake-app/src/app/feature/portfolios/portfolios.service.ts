@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, computed, inject, signal } from "@angular/core";
+import { Injectable, computed, effect, inject, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
     EMPTY,
@@ -14,7 +14,7 @@ import {
     switchMap,
     tap
 } from "rxjs";
-import { CreatePortfolio, Portfolio, PortfolioId, UpdatePortfolio } from "./portfolios.models";
+import { CreatePortfolio, DeletePortfolio, Portfolio, PortfolioId, UpdatePortfolio } from "./portfolios.models";
 
 abstract class ApiEndpoints {
     private static apiBase = "/api";
@@ -43,20 +43,24 @@ export class PortfoliosService {
 
     // selectors
     portfolios = computed(() => this.state().portfolios);
-    loadeed = computed(() => this.state().loaded);
+    loaded = computed(() => this.state().loaded);
 
     // sources
     create$ = new Subject<CreatePortfolio>();
     update$ = new Subject<UpdatePortfolio>();
+    delete$ = new Subject<DeletePortfolio>();
 
     private portfolioCreated$ = this.create$.pipe(
+        tap(res => console.log("Create", res)),
         concatMap(createPortfolio =>
-            this.http.post<PortfolioId>(ApiEndpoints.Portfolios, createPortfolio).pipe(catchError(this.handleError))
+            this.http.post<PortfolioId>(ApiEndpoints.Portfolios, createPortfolio, { observe: "response" }).pipe(
+                tap(res => console.log("Create Inner", res)),
+                catchError(this.handleError)
+            )
         )
     );
 
     private portfolioUpdated$ = this.update$.pipe(
-        tap(x => console.log("Portfolio updated", x)),
         mergeMap(updatePortfolio =>
             this.http
                 .put(ApiEndpoints.Portfolio(updatePortfolio.portfolioId), updatePortfolio.data)
@@ -64,9 +68,15 @@ export class PortfoliosService {
         )
     );
 
+    private portfolioDeleted$ = this.delete$.pipe(
+        concatMap(deletePortfolio =>
+            this.http.delete(ApiEndpoints.Portfolio(deletePortfolio)).pipe(catchError(this.handleError))
+        )
+    );
+
     constructor() {
         // reducers
-        merge(this.portfolioCreated$, this.portfolioUpdated$)
+        merge(this.portfolioCreated$, this.portfolioUpdated$, this.portfolioDeleted$)
             .pipe(
                 startWith(null),
                 switchMap(() =>
@@ -84,16 +94,22 @@ export class PortfoliosService {
                         loaded: true
                     }))
             });
+
+        // effects
+        effect(() => {
+            if (this.loaded()) {
+                console.log("Portfolios Service state", this.state());
+            }
+        });
     }
 
     getPortfolioById(id: PortfolioId): Observable<Portfolio> {
-        console.log("Get by id ", id);
         return this.http
             .get<Portfolio>(ApiEndpoints.Portfolio(id))
             .pipe(retry({ count: 2, delay: 5000 }), catchError(this.handleError));
     }
 
-    private handleError(err: string | null) {
+    private handleError(err: string | null): Observable<never> {
         this.state.update(state => ({ ...state, error: err }));
         return EMPTY;
     }
