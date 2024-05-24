@@ -1,10 +1,13 @@
-import { nameof } from "../core/utils/nameof";
 import { RemoveHeaderPrefixPipe } from "./remove-header-prefix.pipe";
 
 type Asset = {
     assetName: string;
     assetCurrency: string;
 };
+
+function nameof<T>(name: keyof T): keyof T {
+    return name;
+}
 
 describe("RemoveHeaderPrefixPipe", () => {
     it("transforms the property name", () => {

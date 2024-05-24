@@ -1,4 +1,3 @@
-import { nameof } from "../core/utils/nameof";
 import { CamelCaseToHeaderPipe } from "./camel-case-to-header.pipe";
 
 type Asset = {
@@ -6,6 +5,10 @@ type Asset = {
     assetName: string;
     assetCurrency: string;
 };
+
+function nameof<T>(name: keyof T): keyof T {
+    return name;
+}
 
 describe("CamelCaseToHeaderPipe", () => {
     it("transforms the property name", () => {

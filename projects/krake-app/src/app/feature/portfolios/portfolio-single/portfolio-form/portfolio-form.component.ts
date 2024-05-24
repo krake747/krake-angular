@@ -62,9 +62,9 @@ export class PortfolioFormComponent implements OnInit {
     isEdit = input.required<boolean>();
     portfolio = input<Portfolio | undefined>();
 
-    portfolioCreated = output<CreatePortfolio>();
-    portfolioUpdated = output<UpdatePortfolio>();
-    portfolioDeleted = output<DeletePortfolio>();
+    readonly portfolioCreated = output<CreatePortfolio>();
+    readonly portfolioUpdated = output<UpdatePortfolio>();
+    readonly portfolioDeleted = output<DeletePortfolio>();
 
     portfolioId = computed(() => this.portfolio()?.id);
 

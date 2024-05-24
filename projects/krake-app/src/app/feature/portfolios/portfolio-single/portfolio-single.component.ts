@@ -1,8 +1,8 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { Router } from "@angular/router";
+import { PortfolioFormComponent } from "./portfolio-form/portfolio-form.component";
 import { PortfolioId } from "../portfolios.models";
 import { PortfoliosService } from "../portfolios.service";
-import { PortfolioFormComponent } from "../ui/portfolio-form/portfolio-form.component";
 
 @Component({
     selector: "krake-portfolio-single",
