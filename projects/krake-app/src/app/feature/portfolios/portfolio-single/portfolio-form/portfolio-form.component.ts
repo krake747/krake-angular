@@ -1,38 +1,45 @@
 import { Component, OnInit, computed, inject, input, output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { CreatePortfolio, DeletePortfolio, Portfolio, UpdatePortfolio } from "../../portfolios.models";
 
 @Component({
     selector: "krake-portfolio-form",
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
     template: `
         <h2>Form for portfolio id {{ portfolio()?.id ?? "New" }}</h2>
         <form class="portfolio-form" [formGroup]="portfolioFormGroup" (ngSubmit)="handleSubmit()">
-            <div>
-                <label for="name">Name</label>
-                <input formControlName="name" />
-            </div>
+            <p>
+                <mat-form-field appearance="fill">
+                    <mat-label for="name">Name</mat-label>
+                    <input matInput formControlName="name" />
+                </mat-form-field>
+            </p>
             @if (portfolioFormGroup.get("name")?.dirty && portfolioFormGroup.get("name")?.hasError("required")) {
                 <span class="validation validation-error">Name is required.</span>
             }
-            <div>
-                <label for="currency">Currency</label>
-                <input formControlName="currency" />
-            </div>
+            <p>
+                <mat-form-field appearance="fill">
+                    <mat-label for="currency">Currency</mat-label>
+                    <input matInput formControlName="currency" />
+                </mat-form-field>
+            </p>
             @if (
                 portfolioFormGroup.get("currency")?.dirty && portfolioFormGroup.get("currency")?.hasError("required")
             ) {
                 <span class="validation validation-error">Currency is required.</span>
             }
-            <button type="submit" [disabled]="portfolioFormGroup.untouched">
+            <button type="submit" mat-raised-button color="primary" [disabled]="portfolioFormGroup.untouched">
                 {{ isEdit() ? "Update Portfolio" : "Create Portfolio" }}
             </button>
             @if (isEdit()) {
-                <button type="button" (click)="handleDelete()">Delete</button>
+                <button mat-raised-button color="warn" (click)="handleDelete()">Delete</button>
             }
             @if (portfolioFormGroup.touched || isEdit()) {
-                <button type="button" (click)="portfolioFormGroup.reset()">Reset</button>
+                <button mat-raised-button color="accent" (click)="portfolioFormGroup.reset()">Reset</button>
             }
         </form>
     `,
