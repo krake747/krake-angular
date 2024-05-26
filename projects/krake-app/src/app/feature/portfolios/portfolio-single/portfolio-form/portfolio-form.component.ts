@@ -41,6 +41,9 @@ import { CreatePortfolio, DeletePortfolio, Portfolio, UpdatePortfolio } from "..
             @if (portfolioFormGroup.touched || isEdit()) {
                 <button mat-raised-button color="accent" (click)="portfolioFormGroup.reset()">Reset</button>
             }
+            <button mat-raised-button color="accent" (click)="portfolioFormGroup.reset(); returnBack.emit({})">
+                Back
+            </button>
         </form>
     `,
     styles: `
@@ -72,6 +75,7 @@ export class PortfolioFormComponent implements OnInit {
     readonly portfolioCreated = output<CreatePortfolio>();
     readonly portfolioUpdated = output<UpdatePortfolio>();
     readonly portfolioDeleted = output<DeletePortfolio>();
+    readonly returnBack = output<unknown>();
 
     portfolioId = computed(() => this.portfolio()?.id);
 

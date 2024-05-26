@@ -1,7 +1,19 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, computed, inject, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { EMPTY, Observable, Subject, catchError, concatMap, merge, mergeMap, retry, startWith, switchMap } from "rxjs";
+import {
+    EMPTY,
+    Observable,
+    Subject,
+    catchError,
+    concatMap,
+    map,
+    merge,
+    mergeMap,
+    retry,
+    startWith,
+    switchMap
+} from "rxjs";
 import {
     CreatePortfolio,
     DeletePortfolio,
@@ -19,9 +31,15 @@ abstract class ApiEndpoints {
     }
 }
 
+type PortfoliosCommand = {
+    command: "create" | "read" | "update" | "delete" | "clear";
+    portfolioId: PortfolioId | null;
+};
+
 export interface PortfoliosState {
     portfolios: Portfolio[];
     loaded: boolean;
+    lastCommand: PortfoliosCommand;
     error: ErrorResponse[] | ErrorResponse | string | null;
 }
 
@@ -33,54 +51,63 @@ export class PortfoliosService {
     private readonly state = signal<PortfoliosState>({
         portfolios: [],
         loaded: false,
+        lastCommand: <PortfoliosCommand>{ command: "read", portfolioId: null },
         error: null
     });
 
     // selectors
     portfolios = computed(() => this.state().portfolios);
     loaded = computed(() => this.state().loaded);
+    lastCommand = computed(() => this.state().lastCommand);
     error = computed(() => this.state().error);
 
     // sources
     create$ = new Subject<CreatePortfolio>();
     update$ = new Subject<UpdatePortfolio>();
     delete$ = new Subject<DeletePortfolio>();
+    clear$ = new Subject();
 
     private error$ = new Subject<ErrorResponse[] | ErrorResponse | string | null>();
 
     private portfolioCreated$ = this.create$.pipe(
         concatMap(createPortfolio =>
-            this.http
-                .post<PortfolioId>(ApiEndpoints.Portfolios, createPortfolio)
-                .pipe(catchError(response => this.handleHttpError(response)))
+            this.http.post<PortfolioId>(ApiEndpoints.Portfolios, createPortfolio).pipe(
+                catchError(response => this.handleHttpError(response)),
+                map(portfolioId => <PortfoliosCommand>{ command: "create", portfolioId })
+            )
         )
     );
 
     private portfolioUpdated$ = this.update$.pipe(
         mergeMap(updatePortfolio =>
-            this.http
-                .put(ApiEndpoints.Portfolio(updatePortfolio.portfolioId), updatePortfolio.data)
-                .pipe(catchError(response => this.handleHttpError(response)))
+            this.http.put(ApiEndpoints.Portfolio(updatePortfolio.portfolioId), updatePortfolio.data).pipe(
+                catchError(response => this.handleHttpError(response)),
+                map(() => <PortfoliosCommand>{ command: "update", portfolioId: updatePortfolio.portfolioId })
+            )
         )
     );
 
     private portfolioDeleted$ = this.delete$.pipe(
         concatMap(deletePortfolio =>
-            this.http
-                .delete(ApiEndpoints.Portfolio(deletePortfolio))
-                .pipe(catchError(response => this.handleHttpError(response)))
+            this.http.delete(ApiEndpoints.Portfolio(deletePortfolio)).pipe(
+                catchError(response => this.handleHttpError(response)),
+                map(() => <PortfoliosCommand>{ command: "delete", portfolioId: null })
+            )
         )
     );
 
+    private portfolioCleared$ = this.clear$.pipe(map(() => <PortfoliosCommand>{ command: "clear", portfolioId: null }));
+
     constructor() {
         // reducers
-        merge(this.portfolioCreated$, this.portfolioUpdated$, this.portfolioDeleted$)
+        merge(this.portfolioCreated$, this.portfolioUpdated$, this.portfolioDeleted$, this.portfolioCleared$)
             .pipe(
-                startWith(null),
-                switchMap(() =>
+                startWith(<PortfoliosCommand>{ command: "read", portfolioId: null }),
+                switchMap(command =>
                     this.http.get<Portfolio[]>(ApiEndpoints.Portfolios).pipe(
                         retry({ count: 2, delay: 5000 }),
-                        catchError(response => this.handleHttpError(response))
+                        catchError(response => this.handleHttpError(response)),
+                        map(portfolios => ({ portfolios, command: command }))
                     )
                 ),
                 takeUntilDestroyed()
@@ -89,7 +116,8 @@ export class PortfoliosService {
                 next: portfolios =>
                     this.state.update(state => ({
                         ...state,
-                        portfolios,
+                        portfolios: portfolios.portfolios,
+                        lastCommand: portfolios.command,
                         loaded: true
                     }))
             });

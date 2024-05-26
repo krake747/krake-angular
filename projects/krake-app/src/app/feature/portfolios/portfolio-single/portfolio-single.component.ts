@@ -1,8 +1,8 @@
-import { Component, computed, inject, input } from "@angular/core";
+import { Component, computed, effect, inject, input } from "@angular/core";
 import { Router } from "@angular/router";
-import { PortfolioFormComponent } from "./portfolio-form/portfolio-form.component";
 import { PortfolioId } from "../portfolios.models";
 import { PortfoliosService } from "../portfolios.service";
+import { PortfolioFormComponent } from "./portfolio-form/portfolio-form.component";
 
 @Component({
     selector: "krake-portfolio-single",
@@ -15,8 +15,9 @@ import { PortfoliosService } from "../portfolios.service";
                 [isEdit]="isEdit()"
                 [portfolio]="portfolio()"
                 (portfolioUpdated)="portfoliosService.update$.next($event); router.navigate(['portfolios'])"
-                (portfolioCreated)="portfoliosService.create$.next($event); router.navigate(['portfolios'])"
+                (portfolioCreated)="portfoliosService.create$.next($event)"
                 (portfolioDeleted)="portfoliosService.delete$.next($event); router.navigate(['portfolios'])"
+                (returnBack)="router.navigate(['portfolios'])"
             />
         </div>
     `,
@@ -35,5 +36,12 @@ export class PortfolioSingleComponent {
 
     constructor() {
         // effects
+        effect(() => {
+            const { command, portfolioId } = this.portfoliosService.lastCommand();
+            if (command === "create") {
+                this.portfoliosService.clear$.next({});
+                this.router.navigate(["portfolios", portfolioId]);
+            }
+        });
     }
 }
