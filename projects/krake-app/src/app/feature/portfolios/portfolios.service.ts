@@ -65,7 +65,7 @@ export class PortfoliosService {
     create$ = new Subject<CreatePortfolio>();
     update$ = new Subject<UpdatePortfolio>();
     delete$ = new Subject<DeletePortfolio>();
-    clear$ = new Subject();
+    clear$ = new Subject<unknown>();
 
     private error$ = new Subject<ErrorResponse[] | ErrorResponse | string | null>();
 
