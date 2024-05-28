@@ -1,5 +1,16 @@
 import { Component, OnInit, computed, inject, input, output } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import {
+    FormResetEvent,
+    FormSubmittedEvent,
+    NonNullableFormBuilder,
+    PristineChangeEvent,
+    ReactiveFormsModule,
+    StatusChangeEvent,
+    TouchedChangeEvent,
+    Validators,
+    ValueChangeEvent
+} from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -15,7 +26,7 @@ import { CreatePortfolio, DeletePortfolio, Portfolio, UpdatePortfolio } from "..
             <p>
                 <mat-form-field appearance="fill">
                     <mat-label for="name">Name</mat-label>
-                    <input matInput formControlName="name" />
+                    <input id="name" matInput formControlName="name" />
                 </mat-form-field>
             </p>
             @if (portfolioFormGroup.get("name")?.dirty && portfolioFormGroup.get("name")?.hasError("required")) {
@@ -24,7 +35,7 @@ import { CreatePortfolio, DeletePortfolio, Portfolio, UpdatePortfolio } from "..
             <p>
                 <mat-form-field appearance="fill">
                     <mat-label for="currency">Currency</mat-label>
-                    <input matInput formControlName="currency" />
+                    <input id="currency" matInput formControlName="currency" />
                 </mat-form-field>
             </p>
             @if (
@@ -66,8 +77,11 @@ import { CreatePortfolio, DeletePortfolio, Portfolio, UpdatePortfolio } from "..
     `
 })
 export class PortfolioFormComponent implements OnInit {
-    private readonly fb = inject(FormBuilder);
-    portfolioFormGroup!: FormGroup;
+    private readonly fb = inject(NonNullableFormBuilder);
+    portfolioFormGroup = this.fb.group({
+        name: this.fb.control("", Validators.required),
+        currency: this.fb.control("", [Validators.required])
+    });
 
     isEdit = input.required<boolean>();
     portfolio = input<Portfolio | undefined>();
@@ -79,12 +93,28 @@ export class PortfolioFormComponent implements OnInit {
 
     portfolioId = computed(() => this.portfolio()?.id);
 
-    constructor() {}
+    constructor() {
+        this.portfolioFormGroup.events.pipe(takeUntilDestroyed()).subscribe(event => {
+            if (event instanceof TouchedChangeEvent) {
+                console.log("Touched: ", event.touched);
+            } else if (event instanceof PristineChangeEvent) {
+                console.log("Pristine: ", event.pristine);
+            } else if (event instanceof StatusChangeEvent) {
+                console.log("Status: ", event.status);
+            } else if (event instanceof ValueChangeEvent) {
+                console.log("Value: ", event.value);
+            } else if (event instanceof FormResetEvent) {
+                console.log("Form reset");
+            } else if (event instanceof FormSubmittedEvent) {
+                console.log("Form submitted");
+            }
+        });
+    }
 
     ngOnInit(): void {
-        this.portfolioFormGroup = this.fb.group({
-            name: this.fb.control(this.portfolio()?.name ?? "", Validators.required),
-            currency: this.fb.control(this.portfolio()?.currency ?? "", [Validators.required])
+        this.portfolioFormGroup.setValue({
+            name: this.portfolio()?.name ?? "",
+            currency: this.portfolio()?.currency ?? ""
         });
     }
 
