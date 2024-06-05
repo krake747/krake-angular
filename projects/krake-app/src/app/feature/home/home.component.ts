@@ -32,7 +32,7 @@ import { Portfolio, PortfolioInvestment, PortfolioService } from "./portfolios.s
     template: `
         <div class="container">
             <div class="top">
-                <h1>Portfolios</h1>
+                <h1>Home</h1>
                 @if (dataSource$ | async; as ds) {
                     <table mat-table class="mat-elevation-z3" [dataSource]="ds" multiTemplateDataRows>
                         <ng-container matColumnDef="id">

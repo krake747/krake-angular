@@ -19,8 +19,8 @@ import { PortfolioInvestment } from "./portfolios.service";
         .chart-container {
             position: relative;
             margin: auto;
-            width: 48vw;
-            height: 41vh;
+            width: 46vw;
+            height: 36vh;
         }
     `
 })
